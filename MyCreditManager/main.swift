@@ -41,6 +41,10 @@ while true {
         print("삭제할 학생의 이름을 입력해주세요")
         let insert = readLine() ?? ""
         var delete = false
+        if insert.count == 0 {
+            print("입력이 잘못되었습니다. 다시 확인해주세요.")
+            continue
+        }
         if Array.contains(insert) {
             Array.removeAll(where: {$0 == insert})
             print("\(insert) 학생을 삭제하였습니다.")
@@ -48,7 +52,7 @@ while true {
             delete = true
         }
         if !delete {
-            print("\(insert) 학생을 찾지 못했습니다.")
+            print("\(insert)학생을 찾지 못했습니다.")
         }
     case "3":
         print("성적을 추가할 학생의 이름, 과목 이름, 성적(A+, A, F 등)을 띄어쓰기로 구분하여 차례로 작성해주세요.");
@@ -56,18 +60,23 @@ while true {
         print("만약에 학생의 성적 중 해당 과목이 존재하면 기존 점수가 갱신됩니다.")
         let insert = readLine() ?? ""
         let separateGrade = insert.components(separatedBy: " ")
-        if separateGrade.count != 3 {
+        if separateGrade.count != 3 || insert.count == 0 {
             print("입력이 잘못되었습니다. 다시 확인해주세요.")
             continue
         }
-        let index = Array.firstIndex(where: {$0 == separateGrade[0]})
-        if separateGrade[1] == "Swift" {
-            SwiftGrade[index!] = separateGrade[2]
+        if Array.contains(separateGrade[0]) {
+            let index = Array.firstIndex(where: {$0 == separateGrade[0]})
+            if separateGrade[1] == "Swift" {
+                SwiftGrade[index!] = separateGrade[2]
+            }
+            else if separateGrade[1] == "Python" {
+                PythonGrade[index!] = separateGrade[2]
+            }
+            print("\(separateGrade[0]) 학생의 \(separateGrade[1]) 과목이 \(separateGrade[2])로 추가(변경) 되었습니다.")
         }
-        else if separateGrade[1] == "Python" {
-            PythonGrade[index!] = separateGrade[2]
+        else {
+            print("입력이 잘못되었습니다. 다시 확인해주세요.")
         }
-        print("\(separateGrade[0]) 학생의 \(separateGrade[1]) 과목이 \(separateGrade[2])로 추가(변경) 되었습니다.")
     case "4":
         print("성적을 삭제할 학생의 이름, 과목 이름을 띄어쓰기로 구분하여 차례대로 작성해주세요.")
         print("입력예) Mickey Swift")
